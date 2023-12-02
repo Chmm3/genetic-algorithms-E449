@@ -18,7 +18,6 @@ Tournament selection is a method for choosing parents where we pick two random a
 Roulette wheel selection is a method of choosing parents were a "wheel" is created where each agent in a generation is given a slice of the wheel proportional to the fitness that they have.
 
 ![Roulette wheel selection example | Download Scientific Diagram](https://www.researchgate.net/publication/251238305/figure/fig2/AS:335552218976261@1457013291551/Roulette-wheel-selection-example.png)
-
 Once this is done we "spin" the wheel and whatever we land on is the agent that will be chosen for crossover.
 
 The way I implemented this code is by IDing each agent, then creating a list of these IDs where the number of entries for each ID was the corresponding agent's fitness value.
@@ -29,9 +28,7 @@ This section goes over different crossover methods. These **are** methods that a
 ### Blend Crossover (Binary Coded) 
 Binary crossovers consist of different ways of splicing a binary string and gluing them back together with a portion of another binary string.
 
-![10 Examples of multi-point crossover methods applied to a binary... |  Download Scientific Diagram](https://www.researchgate.net/publication/265505143/figure/fig40/AS:669076007432196@1536531559600/Examples-of-multi-point-crossover-methods-applied-to-a-binary-encoded-solution-In-a.png) 
-
-Example (a) shows a 50% split between two parents. Both children are made up of half the gene of the parents. Example (b) shows an example where each bit slot in the parent has a 50% (or other variable chance) to show up in the children. This means, for offspring 1, for the first bit that makes up the string, there is a 50% chance it came from chromosome 1 and a 50% chance it came from chromosome 2. Offspring 2 will be the complement to the bit inheritance of offspring 1.
+![10 Examples of multi-point crossover methods applied to a binary... |  Download Scientific Diagram](https://www.researchgate.net/publication/265505143/figure/fig40/AS:669076007432196@1536531559600/Examples-of-multi-point-crossover-methods-applied-to-a-binary-encoded-solution-In-a.png) Example (a) shows a 50% split between two parents. Both children are made up of half the gene of the parents. Example (b) shows an example where each bit slot in the parent has a 50% (or other variable chance) to show up in the children. This means, for offspring 1, for the first bit that makes up the string, there is a 50% chance it came from chromosome 1 and a 50% chance it came from chromosome 2. Offspring 2 will be the complement to the bit inheritance of offspring 1.
 
 ### Linear Crossover (Real Coded)
 To compute a linear crossover assume two parents P1 and P2 (real values) create three children $$C_1 = 0.5(P_1 + P_2) \newline C_2 = 1.5P_1 - 0.5P_2 \newline C_3 =1.5P_2 - 0.5 P_1$$
@@ -43,13 +40,21 @@ After doing this, find the fitness value for each child, the two children with b
 For real coded genetic algorithms a blend crossover take the following form described in this section.
 1. Generate a random number `r` between 0 and 1.
 2. Compute gamma $$\gamma = (1 + 2  \alpha)r - \alpha$$ where alpha is a hyper-parameter.
-3. Then our two children are described as $$C_1 = (1 - \gamma)P_1 + \gamma P_2 \newline C_2 = \gamma P_1 + (1 - \gamma ) P_2$$
+3. Then our two children are described as 
+
+$$C_1 = (1 - \gamma)P_1 + \gamma P_2$$
+
+$$ C_2 = \gamma P_1 + (1 - \gamma ) P_2$$
 
 ### Simulated Binary Crossover (SBX) (Real Coded)
 Simulated binary crossover takes a statistical approach to defining our children. I will work backwards and define the needed variables and concepts as they arise. We consider a hyper-parameter `q` for this crossover, this value will determine how varied the children are.
 
- 1. We consider two children as defined by $$C_1 = 0.5(P_1 + P_2) - \alpha' * |P_2 - P_1| \newline C_2 = 0.5(P_1 + P_2) + \alpha' * |P_2 - P_1|$$
- 2. "alpha prime" is a value that we compute through one of three methods depending on what type of "crossover event" we choose. To choose it, we pick a random number `r` between 0 and 1. Then if `r > 0.5` we consider an expanding crossover event, if `r = 0.5` then we consider a stationary crossover event, if `r < 0.5` we consider a contracting crossover event.
+ 1. We consider two children as defined by
+ $$C_1 = 0.5(P_1 + P_2) - \alpha' * |P_2 - P_1| $$
+ 
+ $$ C_2 = 0.5(P_1 + P_2) + \alpha' * |P_2 - P_1|$$
+ 
+ 3. "alpha prime" is a value that we compute through one of three methods depending on what type of "crossover event" we choose. To choose it, we pick a random number `r` between 0 and 1. Then if `r > 0.5` we consider an expanding crossover event, if `r = 0.5` then we consider a stationary crossover event, if `r < 0.5` we consider a contracting crossover event.
 
 Each crossover event is based on the following polynomial probability distribution (`q` is what changes the graph in the below gif):
 
@@ -57,36 +62,39 @@ Each crossover event is based on the following polynomial probability distributi
 
 #### Expanding Crossover Event
 This is an example of the result for a expanding crossover event.
-
 ![expanding-crossover](https://i.ibb.co/4F10DDJ/expanding-crossover.jpg)
-
 $$\alpha' = 2r^{q + 1}$$
 This is derived from the area under the curve of the right side.
 $$\int_{\alpha'}^{\infty }0.5(q+1)\frac{1}{\alpha^{q+2}} = r $$
+
 $$0.5(q+1)\int_{\alpha'}^{\infty }\alpha^{-q-2} = r $$
+
 $$\frac{-0.5}{\infty^{q+1}} - \frac{-0.5}{\alpha'^{q+1}} = r $$
+
 $$0.5\alpha'^{-q-1} = r $$
+
 $$\alpha'^{-q-1} = 2r \newline$$
+
 $$\alpha' = 2r^{q+1}$$
 
 #### Stationary Crossover Event
 This is an example of the result for a stationary crossover event.
-
 ![stationary-crossover](https://i.ibb.co/WPjm6gW/stationary-crossover.jpg)
-
 $$\alpha' = 1$$
 This exists at the center line; hence alpha prime is one.
 #### Contracting Crossover Event
 This is an example of the result for a contracting crossover event.
-
 ![contracting-crossover](https://i.ibb.co/xLLhSbj/contracting-crossover.jpg)
-
 $$\alpha' = 2r^{\frac{1}{q + 1}}$$
 This is derived from the area under the curve of the left side.
 $$\int_{0}^{\alpha' }0.5(q+1)\alpha^{q} = r $$
+
 $$0.5(q+1)\int_{0}^{\alpha' }\alpha^{q} = r $$
+
 $$0.5\alpha'^{q+1}-0.5(0)^{q+1} = r $$
+
 $$\alpha'^{q+1} = 2r $$
+
 $$\alpha' = 2r^{\frac{1}{q+1}}$$
 
 ## Mutation
@@ -96,16 +104,17 @@ Mutation events are similar to our crossover functions in the sense that binary 
 Binary coded mutation have a hyper-parameter relating to the rate at which each bit has to flip.
 
 ### Random Mutation (Real Coded)
-Real coded genetic algorithms have a similar function to that of the binary coded genetic algorithm's random mutation function. In this case we will consider a hyper-parameter, $\delta$, which will refer to the variance each mutation can take. We also consider a random value between 0 and 1, $r$. $P$ is our gene undergoing mutation.$$(P + r -0.5)  \delta$$
+Real coded genetic algorithms have a similar function to that of the binary coded genetic algorithm's random mutation function. In this case we will consider a hyper-parameter, $\delta$, which will refer to the variance each mutation can take. We also consider a random value between 0 and 1, $r$. $P$ is our gene undergoing mutation.  $$(P + r -0.5)  \delta$$
 
 ### Polynomial Mutation (Real Coded)
 Polynomial mutation for real coded genetic algorithms will take a random number between 0 and 1, $r$, a hyper-parameter $\delta$, to determine variance of each mutation, and calculate a perturbation factor, $\bar{\delta}$, which will be used to mutate a gene.
+
 $$\bar{\delta} =
     \begin{cases}
       (2r)^{\frac{1}{q+1}} & \text{, if r < 0.5}\\
       1-(2(1-r))^\frac{1}{q+1} & \text{, if r ≥ 0.5}\\
     \end{cases}       $$
-    From this we define the mutation as $$P +\bar{\delta}\delta$$
+From this we define the mutation as $$P +\bar{\delta}\delta$$
 
 ## Binary Coded Genetic Algorithm
 The `bcga.py` file is an example of the knapsack problem, a toy problem where we are trying to maximize some value while remaining in within the constraints of the input's attributes. 
