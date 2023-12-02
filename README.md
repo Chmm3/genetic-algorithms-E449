@@ -30,6 +30,7 @@ This section goes over different crossover methods. These **are** methods that a
 Binary crossovers consist of different ways of splicing a binary string and gluing them back together with a portion of another binary string.
 
 ![10 Examples of multi-point crossover methods applied to a binary... |  Download Scientific Diagram](https://www.researchgate.net/publication/265505143/figure/fig40/AS:669076007432196@1536531559600/Examples-of-multi-point-crossover-methods-applied-to-a-binary-encoded-solution-In-a.png) 
+
 Example (a) shows a 50% split between two parents. Both children are made up of half the gene of the parents. Example (b) shows an example where each bit slot in the parent has a 50% (or other variable chance) to show up in the children. This means, for offspring 1, for the first bit that makes up the string, there is a 50% chance it came from chromosome 1 and a 50% chance it came from chromosome 2. Offspring 2 will be the complement to the bit inheritance of offspring 1.
 
 ### Linear Crossover (Real Coded)
