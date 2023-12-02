@@ -33,7 +33,7 @@ Binary crossovers consist of different ways of splicing a binary string and glui
 Example (a) shows a 50% split between two parents. Both children are made up of half the gene of the parents. Example (b) shows an example where each bit slot in the parent has a 50% (or other variable chance) to show up in the children. This means, for offspring 1, for the first bit that makes up the string, there is a 50% chance it came from chromosome 1 and a 50% chance it came from chromosome 2. Offspring 2 will be the complement to the bit inheritance of offspring 1.
 
 ### Linear Crossover (Real Coded)
-To compute a linear crossover assume two parents P1 and P2 (real values) create three children 
+To compute a linear crossover assume two parents $P_1$ and $P_2$ (real values) and creates three children 
 
 $$C_1 = 0.5(P_1 + P_2) $$ 
 
@@ -46,8 +46,8 @@ After doing this, find the fitness value for each child, the two children with b
 ### Blend Crossover (Real Coded)
 
 For real coded genetic algorithms a blend crossover take the following form described in this section.
-1. Generate a random number `r` between 0 and 1.
-2. Compute gamma $$\gamma = (1 + 2  \alpha)r - \alpha$$ where alpha is a hyper-parameter.
+1. Generate a random number, $r$, between 0 and 1.
+2. Compute $\gamma$ $$\gamma = (1 + 2  \alpha)r - \alpha$$ where $\alpha$ is a hyper-parameter.
 3. Then our two children are described as 
 
 $$C_1 = (1 - \gamma)P_1 + \gamma P_2$$  
@@ -55,7 +55,7 @@ $$C_1 = (1 - \gamma)P_1 + \gamma P_2$$
 $$ C_2 = \gamma P_1 + (1 - \gamma ) P_2$$
 
 ### Simulated Binary Crossover (SBX) (Real Coded)
-Simulated binary crossover takes a statistical approach to defining our children. I will work backwards and define the needed variables and concepts as they arise. We consider a hyper-parameter `q` for this crossover, this value will determine how varied the children are.
+Simulated binary crossover takes a statistical approach to defining our children. I will work backwards and define the needed variables and concepts as they arise. We consider a hyper-parameter $q$ for this crossover, this value will determine how varied the children are.
 
  1. We consider two children as defined by
 
@@ -63,9 +63,9 @@ Simulated binary crossover takes a statistical approach to defining our children
  
  $$ C_2 = 0.5(P_1 + P_2) + \alpha' * |P_2 - P_1|$$
  
- 3. "alpha prime" is a value that we compute through one of three methods depending on what type of "crossover event" we choose. To choose it, we pick a random number `r` between 0 and 1. Then if `r > 0.5` we consider an expanding crossover event, if `r = 0.5` then we consider a stationary crossover event, if `r < 0.5` we consider a contracting crossover event.
+ 3. "alpha prime" is a value that we compute through one of three methods depending on what type of "crossover event" we choose. To choose it, we pick a random number $r$ between 0 and 1. Then if $r > 0.5$ we consider an expanding crossover event, if $r = 0.5$ then we consider a stationary crossover event, if $r < 0.5$ we consider a contracting crossover event.
 
-Each crossover event is based on the following polynomial probability distribution (`q` is what changes the graph in the below gif):
+Each crossover event is based on the following polynomial probability distribution ($q$ is what changes the graph in the below gif):
 
 ![sbxgif](https://i.ibb.co/0FkGMV2/sbxgif.gif)
 
@@ -74,7 +74,9 @@ This is an example of the result for a expanding crossover event.
 ![expanding-crossover](https://i.ibb.co/4F10DDJ/expanding-crossover.jpg)
 
 $$\alpha' = 2r^{q + 1}$$
+
 This is derived from the area under the curve of the right side.
+
 $$\int_{\alpha'}^{\infty }0.5(q+1)\frac{1}{\alpha^{q+2}} = r $$
 
 $$0.5(q+1)\int_{\alpha'}^{\infty }\alpha^{-q-2} = r $$
@@ -98,7 +100,9 @@ This is an example of the result for a contracting crossover event.
 ![contracting-crossover](https://i.ibb.co/xLLhSbj/contracting-crossover.jpg)
 
 $$\alpha' = 2r^{\frac{1}{q + 1}}$$
+
 This is derived from the area under the curve of the left side.
+
 $$\int_{0}^{\alpha' }0.5(q+1)\alpha^{q} = r $$
 
 $$0.5(q+1)\int_{0}^{\alpha' }\alpha^{q} = r $$
